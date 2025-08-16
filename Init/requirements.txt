@@ -1,0 +1,34 @@
+# Web app framework
+streamlit
+streamlit-folium
+
+# Data handling
+pandas
+numpy
+
+# Visualization
+plotly
+matplotlib
+folium
+
+
+# Machine Learning
+scikit-learn
+lime
+shap
+sentence-transformers
+transformers
+torch
+seaborn
+
+
+# NLP
+spacy
+
+# Geolocation
+geopy
+
+# HTTP Requests
+requests
+
+
