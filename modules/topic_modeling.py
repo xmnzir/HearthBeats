@@ -13,12 +13,12 @@ from bertopic import BERTopic
 from sentence_transformers import SentenceTransformer
 import spacy
 import streamlit as st
-
+from spacy.cli import download
 
 from utils.pca_tsne_vis import visualize_embeddings
 
 
-nlp = spacy.load("en_core_web_sm", disable=["parser", "ner"])
+
 
 
 STOPWORDS_SET = {
@@ -55,12 +55,27 @@ STOPWORDS_SET = {
     "you'll", "you're", "you've", "your", "yours"
 }
 
+
+
+@st.cache_resource
+def load_spacy_model():
+    model_name = "en_core_web_sm"
+    try:
+        return spacy.load(model_name, disable=["parser", "ner"])
+    except OSError:
+        with st.spinner("Downloading spaCy model (first run only)..."):
+            download(model_name)
+        return spacy.load(model_name, disable=["parser", "ner"])
+
+
 def clean_text(text):
+    nlp = load_spacy_model()
     text = re.sub(r"\W+", " ", text.lower())
     text = re.sub(r"\s+", " ", text).strip()
     doc = nlp(text)
     tokens = [token.lemma_ for token in doc if token.lemma_ not in STOPWORDS_SET and len(token.lemma_) > 2]
     return " ".join(tokens)
+
 
 def clean_topic_name(name):
     if isinstance(name, (list, tuple)):
@@ -188,3 +203,4 @@ def visualize_heatmap(topic_model):
 def explore_topic(topic_model, topic_id):
     fig = topic_model.visualize_barchart(topic_id)
     fig.show()
+
