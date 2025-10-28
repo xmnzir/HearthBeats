@@ -39,9 +39,11 @@ joblib>=1.4.0
 # Optional: for interactive visualizations used in components
 umap-learn>=0.5.5
 hdbscan>=0.8.33
+geopy>=2.3.0
 
 # Ensure consistent encoding/plots
 altair>=5.2.0
+
 
 
 
